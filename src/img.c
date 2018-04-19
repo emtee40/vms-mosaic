@@ -84,6 +84,7 @@ extern int cacheTrace;
 extern char *cached_url;
 extern int browserSafeColors;
 extern int BSCnum;
+extern Boolean currently_delaying_images;
          
 /* Defined in gui-documents.c */
 extern int interrupted;
@@ -387,7 +388,9 @@ void MultiImageLoad(Widget w, XtPointer clid, XtPointer calld)
 	if (srcTrace)
 		fprintf(stderr, "[IMG] Multi image load callback\n");
 #endif
-	if (win->multi_image_load)
+	/* Do if multiload enabled and not delaying image loads */ 
+	if (win->multi_image_load && !win->delay_image_loads &&
+	    !currently_delaying_images)
 		DoMultiLoad = 1;
 }
 
